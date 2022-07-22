@@ -13,6 +13,9 @@ module.exports = {
         path: path.resolve("./dist/"),
     },
     resolve: {
+		alias: {
+			assets: path.resolve(__dirname, 'assets/'),
+		},
         extensions: [".ts", ".js"],
         fallback: {
             fs: false,
