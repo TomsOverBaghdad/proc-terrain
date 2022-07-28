@@ -17,7 +17,7 @@ import "@babylonjs/core/Materials/Textures/Loaders/envTextureLoader";
 
 // digital assets
 import controllerModel from "assets/glb/samsung-controller.glb";
-import roomEnvironment from "assets/environment/room.env"
+import roomEnvironment from "assets/environment/room.env";
 
 export class LoadModelAndEnvScene implements CreateSceneClass {
     createScene = async (
@@ -52,7 +52,7 @@ export class LoadModelAndEnvScene implements CreateSceneClass {
         new EnvironmentHelper( {
             skyboxTexture: roomEnvironment,
             createGround: false
-        }, scene)
+        }, scene);
 
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
         const light = new HemisphericLight(
