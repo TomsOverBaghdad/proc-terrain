@@ -41,15 +41,6 @@ export class Hex {
     readonly height = 2 * this.radius;
     readonly width = Math.sqrt(3) * this.radius;
 
-    constructor(row: number, col: number) {
-        this.r = row;
-        this.q = col;
-        this.s = -(this.q + this.r);
-
-        this.elevation = -0.5;
-        this.terrain = OCEAN;
-    }
-
     // https://www.redblobgames.com/grids/hexagons/#distances-axial
     static distance(a: Hex, b: Hex): float {
         return (
@@ -58,6 +49,15 @@ export class Hex {
                 Math.abs(a.r - b.r)) /
             2
         );
+    }
+
+    constructor(row: number, col: number) {
+        this.r = row;
+        this.q = col;
+        this.s = -(this.q + this.r);
+
+        this.elevation = -0.5;
+        this.terrain = OCEAN;
     }
 
     verticalPosition() {
