@@ -13,7 +13,7 @@ export interface CreateSceneModule {
 export const getSceneModuleWithName = (
     name = "map"
 ): Promise<CreateSceneClass> => {
-    return import("./" + name).then((module: CreateSceneModule) => {
+    return import(`./${name}`).then((module: CreateSceneModule) => {
         return module.default;
     });
 };
