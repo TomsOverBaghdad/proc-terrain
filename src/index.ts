@@ -21,10 +21,10 @@ export const babylonInit = async (): Promise<void> => {
     if (engineType === "webgpu") {
         const webGPUSupported = await WebGPUEngine.IsSupportedAsync;
         if (webGPUSupported) {
-            const webgpu = engine = new WebGPUEngine(canvas, {
+            const webgpu = (engine = new WebGPUEngine(canvas, {
                 adaptToDeviceRatio: true,
                 antialiasing: true,
-            });
+            }));
             await webgpu.initAsync();
             engine = webgpu;
         } else {
