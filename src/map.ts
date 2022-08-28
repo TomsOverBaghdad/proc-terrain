@@ -14,7 +14,7 @@ import "@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent";
 import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
 import { Color4 } from "@babylonjs/core/Maths/math.color";
 
-import { HexMap, Hex } from "./hex";
+import { HexMap, Hex, HILLS, GRASS, OCEAN, MOUNTAIN } from "./hex";
 
 export class DefaultSceneWithTexture implements CreateSceneClass {
     createScene = async (
@@ -61,28 +61,44 @@ export class DefaultSceneWithTexture implements CreateSceneClass {
                 const z = hex.radius * Math.sin(angle_rad);
                 shape.push(
                     new Vector3(
-                        x + hex.horizontalPosition(),
+                        x + hex.horizontalPosition,
                         0,
-                        z + hex.verticalPosition()
+                        z + hex.verticalPosition
                     )
                 );
             }
+            // determine terrain
+            if (hex.elevation >= 0.9) hex.terrain = MOUNTAIN;
+            else if (hex.elevation >= 0.75) hex.terrain = HILLS;
+            else if (hex.elevation >= 0) hex.terrain = GRASS;
+            else hex.terrain = OCEAN;
+
+            // hex.terrain = OCEAN
+
+            // const r = hex.elevation > .95 ? hex.elevation : 0
+            // const g = hex.elevation <= .95 && hex.elevation > .44 ? hex.elevation : 0
+            // const b = hex.elevation <= .44 ? hex.elevation : 0
+            // hex.terrain = new Color4(r,g,b)
+
             let testColor = hex.terrain;
             if (hex.q == 0 && hex.r == 0) testColor = new Color4(1, 0, 0);
             if (hex.q == 29 && hex.r == 29) testColor = new Color4(1, 0, 0);
+            if (hex.q == 29 && hex.r == 0) testColor = new Color4(1, 0, 0);
+            if (hex.q == 0 && hex.r == 29) testColor = new Color4(1, 0, 0);
+
             const faceColors = [
                 testColor, // top
                 // GROUND, // side
             ];
             // build hex
-            const depth = hex.elevation;
             const hexMesh = MeshBuilder.ExtrudePolygon(
                 "Hex",
                 { shape, depth: 1, faceColors },
                 scene,
                 earcut
             );
-            hexMesh.position.y = depth;
+            // const depth = hex.elevation;
+            // hexMesh.position.y = depth;
         };
 
         const hexMap = new HexMap();
